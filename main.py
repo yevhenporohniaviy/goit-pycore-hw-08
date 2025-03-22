@@ -1,6 +1,7 @@
 from models.address_book import AddressBook
 from models.record import Record
 from datetime import datetime
+from models.storage import save_data, load_data
 
 def input_error(func):
     def inner(*args, **kwargs):
@@ -98,7 +99,7 @@ def birthdays(_, book: AddressBook):
     return "\n".join(result)
 
 def main():
-    book = AddressBook()
+    book = load_data()
     print("Welcome to the assistant bot!")
     
     while True:
@@ -106,6 +107,7 @@ def main():
         command, args = parse_input(user_input)
 
         if command in ["close", "exit"]:
+            save_data(book)
             print("Good bye!")
             break
         elif command == "hello":
